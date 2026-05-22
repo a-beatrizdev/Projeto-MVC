@@ -25,7 +25,7 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 # Funções de senha 
 
 def hash_senha(senha: str):
-    return pwd_context_hash(senha)
+    return pwd_context.hash(senha)
 
 def verificar_senha(senha: str, senha_hash: str):
     return pwd_context.verify(senha, senha_hash)
@@ -74,5 +74,13 @@ def get_usuario_logado(request: Request):
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Token inválido ou expirado",  
             )
+
+
+def get_usuario_opcional(request: Request):
+    try:
+        return get_usuario_logado(request)
+    except HTTPException:
+        return None 
+        
 
 
