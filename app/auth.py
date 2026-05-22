@@ -37,7 +37,7 @@ def criar_token(dados: dict):
     payload = dados.copy()
 
     #Define quando o token expira
-    expira = datetime.now(timezone.utc) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTE)
+    expira = datetime.now(timezone.utc) + timedelta(minutes=int(ACCESS_TOKEN_EXPIRE_MINUTE))
     payload.update({"exp": expira})
 
     token = jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
@@ -48,7 +48,7 @@ def decodificar_token(token: str):
     payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
     return payload 
 
-# Função para usar nas rotas 
+# Função para usar nas rotas protegida
 def get_usuario_logado(request: Request):
 
     token = request.cookies.get("access_token")
